@@ -1,57 +1,16 @@
-sudo: required
 language: node_js
 node_js:
   - 10
-cache: 
-  directories:
-    - node_modules
 
 services:
   - docker 
 
-before_install:
-  # login to docker registries (dockerhub + heroku) 
-  - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-  
-install: 
-  # install deps 
-  - npm install 
-
 script: 
-  - npm test 
-  - npm build 
-  # build docker images 
-  - docker build -t kotid/react-example:v2 . 
-
-  # - docker build -t unqpdes / todo-list-front .
-  # - docker tag unqpdes / todo-list-front registry.heroku.com/$HEROKU_APP_NAME/web 
+  - docker build -t react-example:latest .
+  - docker images 
 
 deploy: 
   provider: script 
-  script: 
-    # push to dockerhub  
-     docker push kotid/react-example:v2;
-
-     
-
-# heroku container:push web --app $HEROKU_APP_NAME;
- 
-# befor e_install:
-#   - docker build -t react-example:latest .
-#   - docker images 
-  
-# deploy: 
-#   provider: script
-#   script: bash docker_push
-#   on:
-#     branch: master
-
-# deploy:
-#   provider: heroku
-#   api_key:
-#     secure: QiboX65ZnnD/uCO9EaF7EsjBv4cY35K4ysCClfmkoQsWVvJ2rJwRTujt2AsfyfC+3ATMo84KoRKw8zQj37N7jE9QJQGTw1zMRfgFNi+l8w3xFqfL0fh4lchrCIS8X+cLiHs9agnWMcCZShFieBBFUWYVPRvmFTO2mIuVrmXezXYEPyvja6svFZxF8DrQQ7A/NXpq0EpIBecOXa1ymNzMYvKT5f3kEXl5KR0yqd2YKCbW3JRoJj6U4gUZEPeCC4s08p5dmopumc93C2XfYZ7aYoHCI4rW//bx1S21nO/rUQgTVCp3Rrzqi9fPwHpkJnAweHs33SDa2o1ftz+8S/QIS6dW9tYRDd357YSF5QbaBlUgGdiPMNLO08grbMJ8FbMRNFxGOTUfR+c6iHWHkyiB0SUgyDIDGKgVaPjQwxKWTyrwSRzjO5DOvYP0i7B5Q6ztdXl79kuflZyykcllZogP94mhXf0wlnxVX9jtvQnfRjcDxoaSSGZuTU/P7Jqe0zIjN1tmwwfeSROQ8H7fWtbZO/tBlsS2UwKNupzplgP4Pm6o6LLHGrlsxjPTefgAFi5APcqe0gD8C8kOk9ZLlDQl8teqblMTw2sIX8vxdcqjH6ntwOSB3oXT9D7DcvMJZ4a6XdarFYVpLCKjUh1fMQItUqbqKsaUnb/FVeemYvLj6Qo=
-
-#     # secure: key  #key is a env varibale passed from the travis repository settings
-#   app: react-example-aabhusan
-
-
+  script: bash docker_push 
+  on:
+    branch: main
