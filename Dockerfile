@@ -13,7 +13,7 @@ COPY . /app
 RUN npm install
 RUN npm run build
 
-
+# Nginx image
 FROM nginx:1.15.2-alpine
 COPY --from=builder /app/build /var/www/
 COPY nginx.conf /etc/nginx/nginx.conf
