@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: fluxv2
+  labels:
+    app: nginx
+spec:
+  replicas: 1 
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      serviceAccountName: fluxv2-pods-sa@kcs-ace2.iam.gserviceaccount.com
+      containers:
+      - name: nginx-image
+        image: us-west1-docker.pkg.dev/kcs-ace2/oct-app/nginx:build-1
+        ports:
+        - containerPort: 80
