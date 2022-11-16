@@ -20,9 +20,10 @@ spec:
       labels:
         app: nginx
     spec:
-      serviceAccountName: fluxv2-pods-sa
+      secretRef:
+        name: artifact-registry
       containers:
       - name: nginx-image
-        image: us-west1-docker.pkg.dev/kcs-ace2/nginx/nginx:build-01
+        image: us-west1-docker.pkg.dev/kcs-ace2/oct-app/nginx:build-1
         ports:
         - containerPort: 80
