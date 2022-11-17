@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
-  namespace: fluxv2
+  namespace: app2
   annotations: # Flux annotions are not required for prod as we have to change the build number manually
     flux.weave.works/automated: 'true'
     flux.weave.works/tag.nginx: glob:build-*
@@ -22,20 +22,9 @@ spec:
       labels:
         app: nginx
     spec:
-<<<<<<< HEAD
-      serviceAccountName: fluxv2-pods-sa
+      serviceAccountName: flux-pods-sa
       containers:
       - name: nginx
         image: us-west1-docker.pkg.dev/kcs-ace2/oct-app/nginx:build-1
         ports:
         - containerPort: 80
-        
-=======
-      secretRef:
-        name: artifact-registry
-      containers:
-      - name: nginx-image
-        image: us-west1-docker.pkg.dev/kcs-ace2/nginx/nginx:build-01
-        ports:
-        - containerPort: 80
->>>>>>> de01941eb619cdca080fbf063e8cf28d37d610e0
